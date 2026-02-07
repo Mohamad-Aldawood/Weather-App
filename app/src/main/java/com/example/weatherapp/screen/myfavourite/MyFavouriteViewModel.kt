@@ -2,8 +2,8 @@ package com.example.weatherapp.screen.myfavourite
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.weatherapp.repo.local.model.favourite.FavouriteLocation
-import com.example.weatherapp.repo.local.wrapper.FavouriteLocalStorage
+import com.example.weatherapp.data.local.localStorage.FavouriteLocalStorage
+import com.example.weatherapp.data.local.model.favourite.FavouriteLocation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow

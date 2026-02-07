@@ -2,9 +2,9 @@ package com.example.weatherapp.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.weatherapp.repo.local.WeatherDatabase
-import com.example.weatherapp.repo.local.dao.FavouriteLocationDao
-import com.example.weatherapp.repo.local.dao.WeatherDao
+import com.example.weatherapp.data.local.WeatherDatabase
+import com.example.weatherapp.data.local.dao.FavouriteLocationDao
+import com.example.weatherapp.data.local.dao.WeatherDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

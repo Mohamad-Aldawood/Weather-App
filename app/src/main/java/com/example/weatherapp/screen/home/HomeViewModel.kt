@@ -4,17 +4,17 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.viewModelScope
 import com.example.weatherapp.core.BaseViewModel
-import com.example.weatherapp.core.toCurrentWeatherInfo
-import com.example.weatherapp.core.toDailyWeather
-import com.example.weatherapp.repo.local.wrapper.WeatherLocalStorage
-import com.example.weatherapp.repo.remote.Result
-import com.example.weatherapp.repo.remote.weather.ApiService
-import com.example.weatherapp.repo.remote.weather.models.CurrentWeather
+import com.example.weatherapp.data.local.localStorage.WeatherLocalStorage
+import com.example.weatherapp.data.remote.Result
+import com.example.weatherapp.data.remote.weather.ApiService
+import com.example.weatherapp.data.remote.weather.models.CurrentWeather
 import com.example.weatherapp.screen.home.model.CurrentWeatherInfo
 import com.example.weatherapp.screen.home.model.WeatherItem
 import com.example.weatherapp.util.LocationProvider
 import com.example.weatherapp.util.NetworkState
 import com.example.weatherapp.util.NetworkUtils
+import com.example.weatherapp.util.toCurrentWeatherInfo
+import com.example.weatherapp.util.toDailyWeather
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
@@ -126,7 +126,9 @@ class HomeViewModel @Inject constructor(
             ) { currentWeather, fivedays ->
                 currentWeather to fivedays
             }.collect { (currentWeather, fivedays) ->
+
                 if (currentWeather != null && fivedays != null) {
+
                     val result =
                         (currentWeather as Result.Success<CurrentWeather>).data.toCurrentWeatherInfo()
                     val listWeatherItem = fivedays.toDailyWeather()

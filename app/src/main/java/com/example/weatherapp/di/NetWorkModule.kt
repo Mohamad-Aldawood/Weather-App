@@ -1,10 +1,10 @@
 package com.example.weatherapp.di
 
 import android.content.Context
-import com.example.weatherapp.repo.remote.geo.GeoApiService
-import com.example.weatherapp.repo.remote.geo.GeoApiServiceImpl
-import com.example.weatherapp.repo.remote.weather.ApiService
-import com.example.weatherapp.repo.remote.weather.ApiServiceImpl
+import com.example.weatherapp.data.remote.geo.GeoApiService
+import com.example.weatherapp.data.remote.geo.GeoApiServiceImpl
+import com.example.weatherapp.data.remote.weather.ApiService
+import com.example.weatherapp.data.remote.weather.ApiServiceImpl
 import com.example.weatherapp.util.NetworkUtils
 import dagger.Module
 import dagger.Provides

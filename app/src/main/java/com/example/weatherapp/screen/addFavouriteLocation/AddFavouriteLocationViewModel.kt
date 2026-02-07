@@ -2,11 +2,11 @@ package com.example.weatherapp.screen.addFavouriteLocation
 
 import androidx.lifecycle.viewModelScope
 import com.example.weatherapp.core.BaseViewModel
-import com.example.weatherapp.repo.local.model.favourite.FavouriteLocation
-import com.example.weatherapp.repo.local.wrapper.FavouriteLocalStorage
-import com.example.weatherapp.repo.remote.Result
-import com.example.weatherapp.repo.remote.geo.GeoApiService
-import com.example.weatherapp.repo.remote.geo.models.GeoCodingResponse
+import com.example.weatherapp.data.local.localStorage.FavouriteLocalStorage
+import com.example.weatherapp.data.local.model.favourite.FavouriteLocation
+import com.example.weatherapp.data.remote.Result
+import com.example.weatherapp.data.remote.geo.GeoApiService
+import com.example.weatherapp.data.remote.geo.models.GeoCodingResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
