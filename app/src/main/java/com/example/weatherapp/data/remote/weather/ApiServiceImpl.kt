@@ -19,7 +19,7 @@ class ApiServiceImpl @Inject constructor(private val httpClient: HttpClient) : A
     override fun getFiveDaysWeatherInfo(
         lat: String,
         lon: String
-    ): Flow<FiveDaysWeather> = flow {
+    ): Flow<Result<FiveDaysWeather>> = flow {
         try {
             val responseBody: FiveDaysWeather =
                 httpClient.get(BuildConfig.BASE_URL + Constants.DATA_VERSION + Constants.FORECAST) {
@@ -31,8 +31,9 @@ class ApiServiceImpl @Inject constructor(private val httpClient: HttpClient) : A
                         parameters.append("units", "Kelvin")
                     }
                 }.body()
-            emit(responseBody)
+            emit(Result.Success(responseBody))
         } catch (e: Exception) {
+            Result.Error(e)
             e.printStackTrace()
         }
     }

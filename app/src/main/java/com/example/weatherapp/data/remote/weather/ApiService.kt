@@ -6,7 +6,7 @@ import com.example.weatherapp.data.remote.weather.models.FiveDaysWeather
 import kotlinx.coroutines.flow.Flow
 
 interface ApiService {
-    fun getFiveDaysWeatherInfo(lat: String, lon: String): Flow<FiveDaysWeather>
+    fun getFiveDaysWeatherInfo(lat: String, lon: String): Flow<Result<FiveDaysWeather>>
     fun getCurrentWeatherInfo(lat: String, lon: String): Flow<Result<CurrentWeather>>
 
 }
