@@ -8,6 +8,7 @@ import com.example.weatherapp.data.local.localStorage.WeatherLocalStorage
 import com.example.weatherapp.data.remote.Result
 import com.example.weatherapp.data.remote.weather.ApiService
 import com.example.weatherapp.data.remote.weather.models.CurrentWeather
+import com.example.weatherapp.data.remote.weather.models.FiveDaysWeather
 import com.example.weatherapp.screen.home.model.CurrentWeatherInfo
 import com.example.weatherapp.screen.home.model.WeatherItem
 import com.example.weatherapp.util.LocationProvider
@@ -123,23 +124,15 @@ class HomeViewModel @Inject constructor(
                     location.first.toString(),
                     location.second.toString()
                 )
-            ) { currentWeather, fivedays ->
-                currentWeather to fivedays
-            }.collect { (currentWeather, fivedays) ->
+            ) { currentWeather, fiveDays ->
+                currentWeather to fiveDays
+            }.collect { (currentWeather, fiveDays) ->
+                when {
+                    currentWeather is Result.Success && fiveDays is Result.Success ->
+                        handleSuccess(currentWeather, fiveDays)
 
-                if (currentWeather != null && fivedays != null) {
-
-                    val result =
-                        (currentWeather as Result.Success<CurrentWeather>).data.toCurrentWeatherInfo()
-                    val listWeatherItem = fivedays.toDailyWeather()
-                    mutableState.update {
-                        it.copy(
-                            showLoader = false,
-                            currentWeatherInfo = result,
-                            list = listWeatherItem
-                        )
-                    }
-                    handleStoringResultInDB(result, listWeatherItem)
+                    currentWeather is Result.Error || fiveDays is Result.Error ->
+                        handleError(currentWeather, fiveDays)
                 }
 
             }
@@ -147,6 +140,52 @@ class HomeViewModel @Inject constructor(
 
     }
 
+    /**
+     * #######
+     *
+     * this method to handle the received data from api in success state
+     *
+     * ######
+     * */
+    fun handleSuccess(
+        currentWeather: Result.Success<CurrentWeather>,
+        fiveDays: Result.Success<FiveDaysWeather>,
+    ) {
+        val current = currentWeather.data.toCurrentWeatherInfo()
+        val daily = fiveDays.data.toDailyWeather()
+
+        mutableState.update {
+            it.copy(
+                showLoader = false,
+                currentWeatherInfo = current,
+                list = daily
+            )
+        }
+
+        handleStoringResultInDB(current, daily)
+    }
+
+    /**
+     * #######
+     *
+     * this method to handle error state when retrieving state from api
+     *
+     * #######
+     * */
+    fun handleError(
+        currentWeather: Result<CurrentWeather>,
+        fiveDays: Result<FiveDaysWeather>
+    ) {
+        when {
+            currentWeather is Result.Error -> {
+                sendEvent(HomeEvents.DisplayErrorMsg(currentWeather.exception.message.toString()))
+            }
+
+            fiveDays is Result.Error -> {
+                sendEvent(HomeEvents.DisplayErrorMsg(fiveDays.exception.message.toString()))
+            }
+        }
+    }
 
     /**
      * ######
